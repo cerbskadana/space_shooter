@@ -31,3 +31,5 @@ if platform == "android":
 
 app = ShooterApp()
 app.run()
+
+
