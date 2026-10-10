@@ -1,21 +1,21 @@
 <MainScreen>:
-    MDBoxLayout:
-        orientation: "vertical"
-        padding: "50dp"
+    MDBoxLayout: 
+        orientation: "vertical"     
+        padding: "50dp" 
         spacing: "30dp"
 
         MDIconButton:
             icon: "cog"
-            pos_hint:{"right":1,"top":1}
+            pos_hint: {"right": 1, "top": 1}
             icon_size: "50dp"
 
         MDLabel:
             text: "SHOOTER"
             halign: "center"
-            font_size: "60dp"
+            font_size: "60sp"
 
         Image:
-            source: "kivy/md/assets/images/roceta.png"
+            source: "md/assets/images/roceta.png"
             size_hint_y: 0.7
             allow_stretch: True
 
@@ -27,37 +27,53 @@
             MDButtonText:
                 text: "PLAY"
                 font_size: "80sp"
-                theme_text_color: "Custom"
-                text_color: "white"
 
-<Ship@Image>:
-    source: "kivy/md/assets/images/roceta.png"
+
+# [ЗМІНА] Задаємо правила оформлення для корабля гравця
+<PlayerShip>:
+    source: "md/assets/images/roceta.png"
     size_hint: None, None
     size: dp(100), dp(200)
+
+
+# [ЗМІНА] Задаємо правила оформлення для ворожого корабля
+<EnemyShip>:
+    source: "md/assets/images/monster.png"
+    size: dp(80), dp(70)
+
 
 <GameScreen>:
     FloatLayout:
         FloatLayout:
             id: game
+
             FloatLayout:
                 id: back
                 canvas.before:
                     Color:
-                        rgba: 0.02,0.02,0.08,1
+                        rgba: 0.05, 0.05, 0.1, 1
                     Rectangle:
                         pos: self.pos
                         size: self.size
+
             FloatLayout:
                 id: front
-                Ship:  
+                # [ЗМІНА] Використовуємо новий клас PlayerShip для гравця
+                PlayerShip:
                     id: ship
                     center_x: root.center_x
-                    y: dp(120)     
+                    y: dp(120)
 
         FloatLayout:
             id: interface
 
-            # [ЗМІНА] Створено інтерфейс кнопок керування внизу екрана
+            # [ЗМІНА] Додано кнопку «pause» у правий верхній кут екрана гри
+            MDIconButton:
+                icon: "pause"
+                icon_size: "40dp"
+                pos_hint: {"right": 0.95, "top": 0.95}
+                on_press: root.pause_game()
+
             BoxLayout:
                 size_hint: 1, None
                 height: dp(100)
