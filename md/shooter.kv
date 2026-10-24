@@ -1,7 +1,7 @@
 <MainScreen>:
-    MDBoxLayout: 
-        orientation: "vertical"     
-        padding: "50dp" 
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: "50dp"
         spacing: "30dp"
 
         MDIconButton:
@@ -15,7 +15,7 @@
             font_size: "60sp"
 
         Image:
-            source: "md/assets/images/roceta.png"
+            source: "md/assets/images/rocket.png"
             size_hint_y: 0.7
             allow_stretch: True
 
@@ -29,14 +29,12 @@
                 font_size: "80sp"
 
 
-# [ЗМІНА] Задаємо правила оформлення для корабля гравця
 <PlayerShip>:
-    source: "md/assets/images/roceta.png"
+    source: "md/assets/images/rocket.png"
     size_hint: None, None
     size: dp(100), dp(200)
 
 
-# [ЗМІНА] Задаємо правила оформлення для ворожого корабля
 <EnemyShip>:
     source: "md/assets/images/monster.png"
     size: dp(80), dp(70)
@@ -51,14 +49,13 @@
                 id: back
                 canvas.before:
                     Color:
-                        rgba: 0.05, 0.05, 0.1, 1
+                        rgba: 0.02, 0.02, 0.08, 1
                     Rectangle:
                         pos: self.pos
                         size: self.size
 
             FloatLayout:
                 id: front
-                # [ЗМІНА] Використовуємо новий клас PlayerShip для гравця
                 PlayerShip:
                     id: ship
                     center_x: root.center_x
@@ -67,7 +64,8 @@
         FloatLayout:
             id: interface
 
-            MDBoxLayout
+            # [ЗМІНА] Смуга здоров'я (HP bar) з іконкою серця
+            MDBoxLayout:
                 orientation: "horizontal"
                 size_hint: None, None
                 size: dp(180), dp(40)
@@ -76,14 +74,15 @@
 
                 MDIcon:
                     icon: "heart"
-                    theme_icon_color : "Custom"
-                    icon_color: 1,0.2, 0.2,1
+                    theme_icon_color: "Custom"
+                    icon_color: 1, 0.2, 0.2, 1
                     pos_hint: {"center_y": 0.5}
+
                 ProgressBar:
-                    value: (ship.hp/ship.max_hp) * 100 if ship.max_hp > 0 else 0 
-                    pos_hint: {}
-                    
-                    # [ЗМІНА] Відображення таймера з іконкою годинника
+                    value: (ship.hp / ship.max_hp) * 100 if ship.max_hp > 0 else 0
+                    pos_hint: {"center_y": 0.5}
+
+            # [ЗМІНА] Відображення таймера з іконкою годинника
             MDBoxLayout:
                 orientation: "horizontal"
                 size_hint: None, None
@@ -100,8 +99,6 @@
                     halign: "left"
                     pos_hint: {"center_y": 0.5}
 
-
-            # [ЗМІНА] Додано кнопку «pause» у правий верхній кут екрана гри
             MDIconButton:
                 icon: "pause"
                 icon_size: "40dp"
@@ -141,23 +138,26 @@
                     icon_color: 1, 0, 0, 1
                     # Одразу викликаємо метод стрільби
                     on_press: root.fire()
+
+
 <GameOverScreen>:
     MDBoxLayout:
-        orientation: "vertiacal"
+        orientation: "vertical"
         padding: "50dp"
         spacing: "30dp"
-        pos_hint: {"center_x": 0.5 , "center_y": 0.5}
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
         MDLabel:
             text: "GAME OVER"
-            halign : "center"
+            halign: "center"
             theme_text_color: "Custom"
-            text_color: 1,0,0,1
+            text_color: 1, 0, 0, 1  # Червоний колір
 
         MDButton:
             pos_hint: {"center_x": 0.5}
             on_press:
+                # Повертає в головне меню при натисканні
                 root.manager.current = "main"
-            
+
             MDButtonText:
                 text: "MENU"
